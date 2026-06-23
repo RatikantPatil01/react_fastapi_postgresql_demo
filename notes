@@ -1,0 +1,24 @@
+## In This We Are Going To Learn How Does React + FastApi + Postgresql Really Together Works Okayy
+
+1. For As Usual We Need To Create One Backend Folder In That We Have To Create Our Own Enviourment Dont Forget That in future also for different projects have different env okay . For Creating it select folder and run (python -m venv .venv) and to activate it (.venv/Scripts/activate)
+2. Second Important Thing to create requirements.txt file for in future we should able to see which libraries we are used here .
+
+## Start To Backend 
+
+ ## In this we are creating a src folder where all our source are present of backend 
+1. Same As Previous Project Install All Libraries and after that creat a folder import fastapi make it's intance their and use it as we did.
+2. Here is something new we are going to create seprate files for routes like suppose we are doing task's model then we also write it in main.py but now we are creating routers folder in their we are creating file in that files we define routes which make it more clear and more easy and well structured to understand ..
+3. For Connecting Routers File With main.py you have to do 
+    1. In Router task.py you have to import (from fastapi import APIRouter) after that you have to create its instance like ( router = APIRouter(prefix="/tasks",tags=['Tasks']) )
+       then use it like @router.post("/create-task")
+                        def create_task(task : TaskCreate):
+                            return {"message":"New task is created"}    
+    2. Now in main.py you have to include it for connection or showing it first import that file like ( from .routers import task ) then include that in app like (app.include_router(task.router))
+    3. Soo Now You Will see in docs that task router have different sections okayy ..
+4.Now For Creating Database You Have To Create schemas folder in that same different model have different file now we created task.py in that we are imported pydantic and write table structure ..
+  One More Advance Thing in this when we created schemas folder in that our file it thorws error because it thought it as file not packege for that we created __init__.py file in schemas folder so it would now read it as package not an folder okay .
+
+5. Now Database Connectivity 
+    1. Install pgAdmin 4 first for using postgresql .
+    2. After That You Should Have To Create Database Manually okayy in pgadmin 4 -> database
+    3. Now we created .env file their we wrote database connection (my postgresql password is "root")
