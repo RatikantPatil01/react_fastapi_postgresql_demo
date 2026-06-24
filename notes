@@ -35,6 +35,24 @@
     2. We Write all crud operations in that check it it have something noew ..
     3. Now We Creating Full Crud Operations Of User By Own .
 
+12. *** Now We Are Going To Create Hashing Password And How To Validate It ***
+    1. First We Need To Intsall passlib[argon2]
+    2. After That In Security We Are Going To Create auth.py file
+    3. In That File we need to import 
+        ( From passlib.context import CryptoContext)
+       Now Need To Create It's instance
+
+       pwd_context = CryptoContext(schemas=['argon2'],deprecated="auto") // this is new code where we are not defining any alogrithm or type it will take what is updated and lastest
+
+       In Old Code We Write it as 
+
+       pwd_context =  CryptoContext(schemas=['argon2'],"bcrypt","HS256") // In This We Are Defining What to use but if it get older then also our program should use it ..
+
+    4. After This we are going to create two functions 
+        1. For Creating Hash Password 
+        2. To Check Plain and Hashed_password
+    
+    5. Now You Can Check How We Added Hashed Password In Database and How we Checked Hashed Password You Will Get It Easily.
 
 
 
