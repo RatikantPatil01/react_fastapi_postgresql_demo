@@ -42,3 +42,10 @@ SessionLocal = sessionmaker(
 # it will inherit from Base.
 # Think of Base as the blueprint from which all tables are created.
 Base = declarative_base()
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+       db.close()

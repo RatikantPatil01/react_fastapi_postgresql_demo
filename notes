@@ -22,3 +22,55 @@
     1. Install pgAdmin 4 first for using postgresql .
     2. After That You Should Have To Create Database Manually okayy in pgadmin 4 -> database
     3. Now we created .env file their we wrote database connection (my postgresql password is "root")
+
+6. Now we have to create a folder called security where we create config.py in that we should mention pydantic_setting which are basically database url or more as per comments in that file ..
+7. After That We Created database.py in that we given database connectivity code .
+8. After that we create Models Folder in that we created task.py for creating our database table .
+9. After This we modifyed some code in main.py for creating table that was ( Base.metadata.create_all(bind=engine) ) This helps to create table and also we need to import ( from src.security.database import Base, engine ) &
+( from .models import Task ) Model To Create Table ..
+10. After Running Program Dataase Created Successfully ..
+
+11. *** Now We Move To Crud Operations ***
+    1. Now in router/task.py import session from database ( Session is basically connection to database )
+    2. We Write all crud operations in that check it it have something noew ..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*** Important ***
+
+1. schemas is for request body ...
+2. Model is for creating table ...
+3. Dependency injection fastapi is we are not creating we are just using that which we have alerady created we are using everywhere ...
+    Example :- we are call db=session() to get connection with database every time but but Dependency injection you have to create a function and call it in function parameter like 
+               You would create get_db function in any file and import it in file you want to use it 
+               
+        // Old code                                                             // New Code
+        def function(task:TaskCreate):                                          def function(task:TaskCreate, db=Depends(get_db)):
+            db=session()                                                            // Code Here
+
+4. "model_dump() is a Pydantic method used to convert model data into a dictionary so it can be easily processed, updated, or stored."
+
+
+
+
+
+*** Question ***
+
+1. What is declarative_base,create_engine,session_maker,Base.metadata.create_all(bind=engine),sqlalechmy,pydnatic why it used and how it works ??
