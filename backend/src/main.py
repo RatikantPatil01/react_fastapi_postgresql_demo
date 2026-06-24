@@ -6,7 +6,7 @@ from fastapi import FastAPI
 # We are importing our task router.
 # The router contains all task-related API endpoints
 # such as create task, get task, update task, and delete task.
-from .routers import task
+from .routers import task,user
 
 
 # We are importing Base and engine from database.py.
@@ -18,6 +18,7 @@ from src.security.database import Base, engine
 # We are importing the Task model.
 # This makes sure FastAPI knows about the Task table.
 from .models import Task
+from .models.user import User
 
 
 # Creating our FastAPI application.
@@ -47,3 +48,5 @@ def root():
 # This tells FastAPI:
 # "Include all APIs written inside task.py router."
 app.include_router(task.router)
+
+app.include_router(user.router)
