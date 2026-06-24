@@ -6,6 +6,15 @@ from ..models import User
 
 router = APIRouter(prefix="/user",tags=['user'])
 
+@router.post("/login")
+def user_login(user:UserCreate,db= Depends(get_db)):
+    result = db.query(User).filter(User.username==user.username and User.password == user.password).first()
+    if not result :
+        raise HTTPException(status_code=404,detail="user not found.")
+    if not result.is_active == True :
+        raise HTTPException(status_code=404,detail="user is inactive")
+    return {"Message":"Login Successfull","Data":result}
+
 @router.get("/get")
 def get_user(db = Depends(get_db)):
     users = db.query(User).all()
@@ -18,7 +27,7 @@ def get_user(id:int ,db = Depends(get_db)):
         raise HTTPException(status_code=404,detail="user not found.")
     return {"Message":"User Fetched Successfully","Data":users}
 
-@router.post("add")
+@router.post("/add")
 def add_user(user:UserCreate,db = Depends(get_db)):
     new_user = User(**user.model_dump())
     db.add(new_user)
