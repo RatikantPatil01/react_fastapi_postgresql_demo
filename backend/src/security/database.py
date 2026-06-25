@@ -15,7 +15,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 # create_engine() creates a connection between our application
 # and the database using the URL stored in config.
 # Think of it as building a road from our app to the database.
-engine = create_engine(config.setting.database_url)
+engine = create_engine(config.settings.database_url)
 
 
 # SessionLocal is a factory that creates database sessions.

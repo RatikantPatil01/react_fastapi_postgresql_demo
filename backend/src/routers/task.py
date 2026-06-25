@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from ..schemas import TaskCreate
 from ..security.database import SessionLocal,get_db
 from ..models import Task
-
+from ..security import auth
 
 router = APIRouter(prefix="/tasks",tags=['Tasks'])
 
@@ -19,7 +19,7 @@ router = APIRouter(prefix="/tasks",tags=['Tasks'])
 
 ### *** With Dependency Injection ***
 @router.post("/create-task")
-def create_task(task : TaskCreate,db=Depends(get_db)):      ## Task Create is our pydantic model
+def create_task(task : TaskCreate,db=Depends(get_db),current_user = Depends(auth.get_current_user)):      ## Task Create is our pydantic model
     new_task = Task(**task.model_dump())                    ## This will create pydantic model to dict 
     db.add(new_task)
     db.commit()
@@ -27,7 +27,7 @@ def create_task(task : TaskCreate,db=Depends(get_db)):      ## Task Create is ou
     return new_task  
 
 @router.get("/get-tasks")
-def get_task(db=Depends(get_db)):
+def get_task(db=Depends(get_db),current_user = Depends(auth.get_current_user)):
     try:
         tasks = db.query(Task).all()
         return tasks
@@ -35,7 +35,7 @@ def get_task(db=Depends(get_db)):
         print(f"Error {e}")
 
 @router.get("/get-tasks/{task_id}")
-def get_task(task_id : int,db=Depends(get_db)):
+def get_task(task_id : int,db=Depends(get_db),current_user = Depends(auth.get_current_user)):
     tasks = db.query(Task).filter(Task.id==task_id).first()
     if not tasks:
         raise HTTPException(status_code= 404, detail="Task not found")

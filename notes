@@ -54,7 +54,17 @@
     
     5. Now You Can Check How We Added Hashed Password In Database and How we Checked Hashed Password You Will Get It Easily.
 
-
+13 . *** Now We Are Moving To JWT Tokens ***
+    JWT Token Stand's For ( JSON WEB TOKEN )
+    1. First You Need To Install A Library Called (python-jose[cryptography])
+    2. Now You Have to Mention 3 Things SECRET_KEY , ALGORITHM , ACCESS_TOKEN_EXPIRE_MINUTES You can declare it anywhere but declaring it in env is good practice .
+    3. Now in Our Security Folders config.py you have to declare that in their you should check the code okayy ..
+    4. Now in Our auth file we need to create a function for creating JWT Access Token
+    5. Now In user.py modify login code after successfull login return JWT Token .
+    6. Now We have to create verify token function for verifying token.
+    7. Now We Have to import OAuth2PasswordBearer from fastapi.security for extracting token from header where user send it from request body header .
+    8. Now create a get_current_user function to verify token and also found user is present or not as per flow you can see it . And it would be used for Applying Dependencies to other functions .
+    9. To Lock The Functions To Not Be Able to use without login which dependcy injection as per seen in code .
 
 
 
@@ -85,6 +95,32 @@
             db=session()                                                            // Code Here
 
 4. "model_dump() is a Pydantic method used to convert model data into a dictionary so it can be easily processed, updated, or stored."
+5. pip freeze > requirements.txt Is used for freezing the all the packages we are used in our program .. Simply By Defining Its Exact Version And Package Name .
+6. Definition:
+        JWT is a secure way to send user information between the client and server after a user logs in.
+
+        Simple Explanation:
+        When a user logs in successfully, the server creates a JWT token and sends it to the client. The client sends this token with future requests, and the server verifies it instead of asking the user to log in again.
+
+        In one line:
+
+        A JWT token is a digital identity card that proves a user is authenticated.
+
+        JWT Structure
+
+        A JWT consists of 3 parts:
+
+        Header.Payload.Signature
+
+        Example:
+
+        eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.abc123xyz
+        Header → Information about the algorithm used.
+        Payload → User data (e.g., user ID, username).
+        Signature → Ensures the token hasn't been modified.
+
+        Very Short Interview Answer :
+        JWT (JSON Web Token) is a compact, secure token used for authentication and authorization. It allows users to stay logged in by sending a signed token with each request instead of repeatedly providing credentials.
 
 
 
@@ -93,3 +129,4 @@
 *** Question ***
 
 1. What is declarative_base,create_engine,session_maker,Base.metadata.create_all(bind=engine),sqlalechmy,pydnatic why it used and how it works ??
+2. What is dependeancy Injection and why to use it ?
