@@ -20,7 +20,7 @@ router = APIRouter(prefix="/tasks",tags=['Tasks'])
 ### *** With Dependency Injection ***
 @router.post("/create-task")
 def create_task(task : TaskCreate,db=Depends(get_db),current_user = Depends(auth.get_current_user)):      ## Task Create is our pydantic model
-    new_task = Task(**task.model_dump())                    ## This will create pydantic model to dict 
+    new_task = Task(**task.model_dump(),user_id = current_user.id)                    ## This will create pydantic model to dict 
     db.add(new_task)
     db.commit()
     db.refresh(new_task)
@@ -29,7 +29,7 @@ def create_task(task : TaskCreate,db=Depends(get_db),current_user = Depends(auth
 @router.get("/get-tasks")
 def get_task(db=Depends(get_db),current_user = Depends(auth.get_current_user)):
     try:
-        tasks = db.query(Task).all()
+        tasks = db.query(Task).filter(Task.user_id==current_user.id).all()
         return tasks
     except Exception as e:
         print(f"Error {e}")
@@ -39,15 +39,19 @@ def get_task(task_id : int,db=Depends(get_db),current_user = Depends(auth.get_cu
     tasks = db.query(Task).filter(Task.id==task_id).first()
     if not tasks:
         raise HTTPException(status_code= 404, detail="Task not found")
+    if tasks.user_id != current_user.id:
+        raise HTTPException(status_code= 404, detail="Forbidden")
     return tasks
 
 
 ### This Is Manually Updating ###
 @router.put("/update-task-manually/{id}")
-def update_task(id:int,task:TaskCreate,db=Depends(get_db)):
+def update_task(id:int,task:TaskCreate,db=Depends(get_db),current_user = Depends(auth.get_current_user)):
     tasks_exist = db.query(Task).filter(Task.id==id).first()
     if not tasks_exist:
         raise HTTPException(status_code=404,detail="Task not found")
+    if tasks_exist.user_id != current_user.id:
+        raise HTTPException(status_code= 403, detail="Forbidden")
     tasks_exist.title = task.title
     tasks_exist.description = task.description
     tasks_exist.completed = task.completed
@@ -57,10 +61,12 @@ def update_task(id:int,task:TaskCreate,db=Depends(get_db)):
 
 ### This is Dynamic Updating ###
 @router.put("/update-task-dynamically/{id}")
-def update_task(id:int,task:TaskCreate,db=Depends(get_db)):
+def update_task(id:int,task:TaskCreate,db=Depends(get_db),current_user = Depends(auth.get_current_user)):
     tasks_exist = db.query(Task).filter(Task.id==id).first()
     if not tasks_exist:
         raise HTTPException(status_code=404,detail="Task not found")
+    if tasks_exist.user_id != current_user.id:
+        raise HTTPException(status_code= 403, detail="Forbidden")
     
         # Get all fields from the incoming request as a dictionary
         # Example:
@@ -87,10 +93,12 @@ def update_task(id:int,task:TaskCreate,db=Depends(get_db)):
     return tasks_exist
 
 @router.delete("/delete-task")
-def delete_task(id:int,db=Depends(get_db)):
+def delete_task(id:int,db=Depends(get_db),current_user = Depends(auth.get_current_user)):
     tasks_exist = db.query(Task).filter(Task.id==id).first()
     if not tasks_exist:
         raise HTTPException(status_code=404,detail="Task not found")
+    if tasks_exist.user_id != current_user.id:
+        raise HTTPException(status_code= 403, detail="Forbidden")
     db.delete(tasks_exist)
     db.commit()
     return {"message":"Task is deleted"}

@@ -66,6 +66,14 @@
     8. Now create a get_current_user function to verify token and also found user is present or not as per flow you can see it . And it would be used for Applying Dependencies to other functions .
     9. To Lock The Functions To Not Be Able to use without login which dependcy injection as per seen in code .
 
+14. *** Now We Are Moving To Relationship Mapping ***
+    1. Relationship mapping is the process of defining how one table or object is connected to another.
+    2. In Easy And in my Words Relationship Mapping is nothing but just showing users data to that users only not other users data to other user .
+    3. Basically in saas product their is multiple employees but which user added which employee is we get by using relationship mapping means while adding employee in database also insert added_by column in that inert user's id so its simple to fetch it by user.
+    4. Now we are creating a simple column in task that is user_id where we store user_id who was added the task .
+    5. We Will Apply Forgeion Key To That column and Foregion is primary key of user table id as you see in program okayy .
+    6. Then we will apply filter to task crud opertion means while adding we add user_id also while update and delete and we will get user.id from dependcy that was current_user.
+
 
 
 
@@ -122,6 +130,9 @@
         Very Short Interview Answer :
         JWT (JSON Web Token) is a compact, secure token used for authentication and authorization. It allows users to stay logged in by sending a signed token with each request instead of repeatedly providing credentials.
 
+7. How Do We Apply Changes From Models Directly To Database ?
+->  To Apply Changes From Model To Database It Will Done Automatically After running program if table is not present but if table is present then we have to use Alembic migrations.
+    create_all() only creates missing tables.
 
 
 

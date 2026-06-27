@@ -4,7 +4,7 @@ from ..security.database import Base
 
 # We are importing different column types from SQLAlchemy.
 # These types tell the database what kind of data each column will store.
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 
 
 # We are creating a table called Task.
@@ -40,3 +40,6 @@ class Task(Base):
     # Boolean means only True or False.
     # default=False means every new task starts as incomplete.
     completed = Column(Boolean, default=False)
+
+    # Here we are creating a column where we are using foregion key for user table id 
+    user_id = Column(Integer,ForeignKey("users.id"))
