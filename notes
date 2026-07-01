@@ -102,6 +102,12 @@
 5. Now We Are Creating A File Called Api.jsx where we are giving routes of all our api's .
 6. For Api Calls We Are Using axios (Install axios)
 
+7. ***** Now We Are Moving To API Integration ... ********
+    - As Per You See in Login Component How We Call it and how we store it in local storage ..
+    - Now To Protect Route in App.jsx You Should Check Code From Their ..
+    - So We Completed CRUD Operation Completed You Can Check It 
+
+
 
 
 
@@ -166,6 +172,16 @@
 9. What is axios ?
 -> Axios is a library for making HTTP requests, and we use it because it simplifies API communication and provides feature like interceptors and better error handling .
 
+10. For Working With Front-End And Back-End You Need To Mentiion CORS In Our Backend main.py File Like 
+->    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"]
+    )
+
+    Which Allows All The Sites To Access Backend In Future You Can Only Mention What Url You Are Using 
 
 
 *** Question ***

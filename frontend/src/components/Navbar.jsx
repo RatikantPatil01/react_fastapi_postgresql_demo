@@ -1,12 +1,20 @@
 import React from "react";
+import {useNavigate } from 'react-router-dom'
 
 
 const Navbar = () => {
+
+  const navigate = useNavigate()
+  const logout=()=>{
+    localStorage.removeItem("token")
+    navigate("/")
+  }
+
   return (
     <>
       <div className="navbar">
           <h1>Task Management System</h1>
-          <button>Logout</button>
+          <button onClick={logout}>Logout</button>
       </div>
     </>
   )

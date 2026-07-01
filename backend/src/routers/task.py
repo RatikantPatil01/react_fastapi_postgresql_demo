@@ -45,7 +45,7 @@ def get_task(task_id : int,db=Depends(get_db),current_user = Depends(auth.get_cu
 
 
 ### This Is Manually Updating ###
-@router.put("/update-task-manually/{id}")
+@router.put("/update-task/{id}")
 def update_task(id:int,task:TaskCreate,db=Depends(get_db),current_user = Depends(auth.get_current_user)):
     tasks_exist = db.query(Task).filter(Task.id==id).first()
     if not tasks_exist:

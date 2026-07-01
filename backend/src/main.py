@@ -19,11 +19,19 @@ from src.security.database import Base, engine
 # This makes sure FastAPI knows about the Task table.
 from .models import Task
 from .models.user import User
+from fastapi.middleware.cors import CORSMiddleware
 
 
 # Creating our FastAPI application.
 # Think of this as starting our backend server.
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 
 # This command creates all tables in the database.
